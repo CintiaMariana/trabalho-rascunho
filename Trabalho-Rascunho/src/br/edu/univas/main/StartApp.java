@@ -1,96 +1,175 @@
 package br.edu.univas.main;
+
 import java.util.ArrayList;
-//import java.util.Random;
+import java.util.Random;
 import java.util.Scanner;
+
 import br.edu.univas.vo.Player;
 import br.edu.univas.vo.Titulo;
 
 public class StartApp {
 	
 	static Scanner scanner = new Scanner(System.in);
+	static Random random = new Random();
 	
-	public static void main (String [] args) {
-		ArrayList<Player> playerList = new ArrayList<>();
+	public static void main(String[] args) {
+		
 		ArrayList<Titulo> tituloList = new ArrayList<>();
+		ArrayList<Player> playerList = new ArrayList<>();
 		
 		int opcao = 0;
+		int contador = 0;
 		
-		do {
-			menu();
-			opcao = readInteger(scanner);
-			
-			if (opcao == 1) {
-				cadastroPlayer(playerList);
-			}
-			else if (opcao == 2) {
-				cadastroTitulo(tituloList);	
-			} 
-			else if (opcao ==3 ) {
-				
-			}	
-			else if (opcao == 4) {
-				
-				
-				}
-			else if (opcao == 5) {
-				System.out.println("Até mais !!");
-			} else {
-				System.out.println("Opção inválida, tente novamente");
-			}
-		} while (opcao != 5);
-		
+		do {	
+		printMainMenu();
+		opcao = readInteger((scanner));
+		if(opcao == 1) {
+			createPlayer(playerList);	
+		}
+		else if(opcao == 2) {
+			createTitle(tituloList);
+			contador++;	
+		}
+		else if(opcao == 3) {
+			randomTitle(tituloList, contador);
+		}
+		else if(opcao == 4) {
+			searchForTitle(tituloList, contador);
+		}
+		else if (opcao == 9) {
+			System.out.println("AtÃ© mais !!");
+		} else {
+			System.out.println("OpÃ§Ã£o invÃ¡lida, tente novamente");
+		}
+		}
+		while(opcao != 9);
+	}
+	
+	public static void printMainMenu() {
+		System.out.println("Escolha uma das opÃ§Ãµes");
+		System.out.println("1: Cadastro de Player");
+		System.out.println("2: Cadastro de TÃ­tulo");
+		System.out.println("3: Recomendar Filme ou SÃ©rie AleatÃ³rio");
+		System.out.println("4: Recomendar Filme ou SÃ©rie por escolha");
+		System.out.println("9: Sair");
 	}
 	
 	public static int readInteger(Scanner scanner) {
-		int result = scanner.nextInt();
+		int a = scanner.nextInt();
 		scanner.nextLine();
-		return result;
+		return a;
 	}
 	
-	public static void menu() {
-		System.out.println("Digite a opção desejada: ");
-		System.out.println("1 - Cadastrar Player");
-		System.out.println("2 - Cadastrar Título");
-		System.out.println("3 - Recomendação Aleatória");
-		System.out.println("4 - Recomendação por Gênero");
-		System.out.println("5 - Sair");
-	}
-	
-	public static void cadastroPlayer (ArrayList<Player> players) {
+	public static void createPlayer(ArrayList<Player> players) {
 		Player player = new Player();
 		
 		System.out.println("--- Cadastro de Player ---");
 		System.out.println("Digite o nome do Player: ");
 		player.setNome(scanner.nextLine());
-		System.out.println("Digite o site do Player: ");
-		player.setSite(scanner.nextLine());
+		
+		System.out.println("Digite a URL do Player: ");
+		player.setUrl(scanner.nextLine());
 		
 		players.add(player);
-		
 	}
 	
-	public static void cadastroTitulo (ArrayList<Titulo> titulos) {
+	public static void createTitle(ArrayList<Titulo> titulos) {
 		Titulo titulo = new Titulo();
 		
-		System.out.println("--- Cadastro de Título ---");
-		System.out.println("O Título é um Filme ou Série ? ");
+		System.out.println("--- Cadastro de TÃ­tulo ---");
+		System.out.println("O TÃ­tulo Ã© um Filme ou SÃ©rie ?");
 		titulo.setTipo(scanner.nextLine());
-		System.out.println("Qual o nome do Título ?");
-		titulo.setTipo(scanner.nextLine());
-		System.out.println("Digite o Elenco do Título: ");
+		
+		System.out.println("Qual o nome do TÃ­tulo ?");
+		titulo.setTitulo(scanner.nextLine());
+		
+		System.out.println("Digite o Elenco do TÃ­tulo: ");
 		titulo.setElenco(scanner.nextLine());
-		System.out.println("Faça uma breve Descrição do Título: ");
+		
+		System.out.println("Digite a DescriÃ§Ã£o do TÃ­tulo: ");
 		titulo.setDescricao(scanner.nextLine());
-		System.out.println("Digite o Gênero do Título: ");
+		
+		System.out.println("Digite o GÃªnero: ");
 		titulo.setGenero(scanner.nextLine());
-		System.out.println("Digite o nome do Diretor do Título: ");
+		
+		System.out.println("Digite o nome do diretor: ");
 		titulo.setDiretor(scanner.nextLine());
-		System.out.println("Digite a classificação etária do Título: ");
-		titulo.setClassificacaoEtaria(scanner.nextLine());
+		
+		System.out.println("Digite a classificaÃ§Ã£o: ");
+		titulo.setClassificacao(readInteger(scanner));
+				
+		int opcao = 0;
+		
+		
+		ArrayList<Player> plataformas = new ArrayList<>();
+		
+		do {
+			Player plataforma = new Player();
+			System.out.println("Digite em qual plataforma estÃ¡ seu tÃ­tulo: ");
+			plataforma.setNome(scanner.nextLine());
+			titulo.setPlataforma(plataforma);
+			System.out.println("Digite a URL: ");
+			plataforma.setUrl(scanner.nextLine());
+			titulo.setPlataforma(plataforma);
+			
+			System.out.println("Deseja cadastrar outra plataforma ? ");
+			System.out.println("1 - Sim");
+			System.out.println("2 - NÃ£o");
+			opcao = readInteger((scanner));
+			plataformas.add(plataforma);
+			
+		} while (opcao != 2);
 		
 		titulos.add(titulo);
 	}
-			
+	
+	public static void randomTitle(ArrayList<Titulo> titlee, int contador) {
+		if(titlee.size() > 0) {
+			int a = (int)Math.floor(Math.random()*(contador-0));
+			System.out.println("\nTipo: "+ titlee.get(a).getTipo());
+			System.out.println("Titulo: "+ titlee.get(a).getTitulo());
+			System.out.println("Elenco: "+ titlee.get(a).getElenco());
+			System.out.println("DescriÃ§Ã£o: "+ titlee.get(a).getDescricao());
+			System.out.println("GÃªnero: "+ titlee.get(a).getGenero());
+			System.out.println("Diretor: "+ titlee.get(a).getDiretor());
+			System.out.println("ClassificaÃ§Ã£o: "+ titlee.get(a).getClassificacao());	
+			System.out.println("Nome da plataforma: "+ titlee.get(a).getPlataforma().getNome());
+			System.out.println("Url da plataforma: "+ titlee.get(a).getPlataforma().getUrl() +"\n");
+		}
+		else {
+			System.out.println("\nNenhum titulo foi adicionado!\n");
+		}
 	}
+	
+	public static void searchForTitle(ArrayList<Titulo> titlee, int contador) {
+		boolean find = false;
+		
+		System.out.println("Digite por qual procurar: ");
+		String a = scanner.nextLine();
+		for(int i = 0; i < contador; i++) {
+			if(titlee.get(i).getTitulo().equals(a) ||
+				titlee.get(i).getGenero().equals(a) || 
+				titlee.get(i).getTipo().equals(a) ||
+				titlee.get(i).getPlataforma().getNome().equals(a) ||
+				titlee.get(i).getPlataforma().getUrl().equals(a)
+				) {
+				find = true;
+				System.out.println("\nTipo: "+ titlee.get(i).getTipo());
+				System.out.println("Titulo: "+ titlee.get(i).getTitulo());
+				System.out.println("Elenco: "+ titlee.get(i).getElenco());
+				System.out.println("DescriÃ§Ã£o: "+ titlee.get(i).getDescricao());
+				System.out.println("GÃªnero: "+ titlee.get(i).getGenero());
+				System.out.println("Diretor: "+ titlee.get(i).getDiretor());
+				System.out.println("ClassificaÃ§Ã£o: "+ titlee.get(i).getClassificacao());	
+				System.out.println("Nome da plataforma: "+ titlee.get(i).getPlataforma().getNome());
+				System.out.println("Url da plataforma: "+ titlee.get(i).getPlataforma().getUrl() +"\n");
+			}
+		}
+		
+		if(find == false) {
+			System.out.println("\nGÃªnero nÃ£o encontrado\n");
+		}
+	}
+	
 
-
+}
