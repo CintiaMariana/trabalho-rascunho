@@ -24,10 +24,10 @@ public class StartApp {
 		printMainMenu();
 		opcao = readInteger((scanner));
 		if(opcao == 1) {
-			createPlayer(playerList);	
+			createPlayer(playerList);
 		}
 		else if(opcao == 2) {
-			createTitle(tituloList);
+			createTitle(tituloList, playerList);
 			contador++;	
 		}
 		else if(opcao == 3) {
@@ -41,8 +41,16 @@ public class StartApp {
 		} else {
 			System.out.println("Opção inválida, tente novamente");
 		}
+		
+		for (int i = 0; i < playerList.size(); i++) {
+			System.out.println(playerList.get(i).getNome());
+			System.out.println(playerList.get(i).getUrl());
+			
+		}
 		}
 		while(opcao != 9);
+		
+		
 	}
 	
 	public static void printMainMenu() {
@@ -71,10 +79,14 @@ public class StartApp {
 		player.setUrl(scanner.nextLine());
 		
 		players.add(player);
+		
+		
 	}
 	
-	public static void createTitle(ArrayList<Titulo> titulos) {
+	public static void createTitle(ArrayList<Titulo> titulos, ArrayList<Player> plataformas) {
 		Titulo titulo = new Titulo();
+		Player plataforma = new Player();
+		
 		
 		System.out.println("--- Cadastro de Título ---");
 		System.out.println("O Título é um Filme ou Série ?");
@@ -101,28 +113,42 @@ public class StartApp {
 		int opcao = 0;
 		
 		
-		ArrayList<Player> plataformas = new ArrayList<>();
-		
 		do {
-			Player plataforma = new Player();
-			System.out.println("Digite em qual plataforma está seu título: ");
-			plataforma.setNome(scanner.nextLine());
-			titulo.setPlataforma(plataforma);
-			System.out.println("Digite a URL: ");
+			System.out.println("Digite em qual plataforma está seu título::");
 			plataforma.setUrl(scanner.nextLine());
-			titulo.setPlataforma(plataforma);
+			System.out.println("Digite a URL da plataforma que está seu título:");
+			plataforma.setUrl(scanner.nextLine());
 			
+			verificaPlayer(plataformas);
+			
+		
 			System.out.println("Deseja cadastrar outra plataforma ? ");
 			System.out.println("1 - Sim");
 			System.out.println("2 - Não");
 			opcao = readInteger((scanner));
-			plataformas.add(plataforma);
+			
 			
 		} while (opcao != 2);
+		
 		
 		titulos.add(titulo);
 	}
 	
+	public static void verificaPlayer(ArrayList<Player> plataformas) {
+		Player plataforma = null;
+		for (int i = 0; i < plataformas.size();i++) {
+			plataforma = plataformas.get(0);
+			if (plataformas.contains(plataforma)) {
+			plataforma = plataformas.get(i);	
+			}
+			else {
+			System.out.println("Nova Plataforma cadastrada");
+			plataformas.add(plataforma);
+			}
+			}
+	}
+	
+
 	public static void randomTitle(ArrayList<Titulo> titlee, int contador) {
 		if(titlee.size() > 0) {
 			int a = (int)Math.floor(Math.random()*(contador-0));
@@ -133,8 +159,8 @@ public class StartApp {
 			System.out.println("Gênero: "+ titlee.get(a).getGenero());
 			System.out.println("Diretor: "+ titlee.get(a).getDiretor());
 			System.out.println("Classificação: "+ titlee.get(a).getClassificacao());	
-			System.out.println("Nome da plataforma: "+ titlee.get(a).getPlataforma().getNome());
-			System.out.println("Url da plataforma: "+ titlee.get(a).getPlataforma().getUrl() +"\n");
+			System.out.println("Nome da plataforma: ");
+			System.out.println("Url da plataforma: ");
 		}
 		else {
 			System.out.println("\nNenhum titulo foi adicionado!\n");
@@ -150,8 +176,8 @@ public class StartApp {
 			if(titlee.get(i).getTitulo().equals(a) ||
 				titlee.get(i).getGenero().equals(a) || 
 				titlee.get(i).getTipo().equals(a) ||
-				titlee.get(i).getPlataforma().getNome().equals(a) ||
-				titlee.get(i).getPlataforma().getUrl().equals(a)
+				titlee.get(i).getPlataforma().get(i).getNome().equals(a) ||
+				titlee.get(i).getPlataforma().get(i).getUrl().equals(a)
 				) {
 				find = true;
 				System.out.println("\nTipo: "+ titlee.get(i).getTipo());
@@ -161,8 +187,8 @@ public class StartApp {
 				System.out.println("Gênero: "+ titlee.get(i).getGenero());
 				System.out.println("Diretor: "+ titlee.get(i).getDiretor());
 				System.out.println("Classificação: "+ titlee.get(i).getClassificacao());	
-				System.out.println("Nome da plataforma: "+ titlee.get(i).getPlataforma().getNome());
-				System.out.println("Url da plataforma: "+ titlee.get(i).getPlataforma().getUrl() +"\n");
+				System.out.println("Nome da plataforma: "+ titlee.get(i).getPlataforma().get(i).getNome());
+				System.out.println("Url da plataforma: "+ titlee.get(i).getPlataforma().get(i).getUrl() +"\n");
 			}
 		}
 		
